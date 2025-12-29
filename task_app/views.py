@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from task_app import models
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from task_app.forms import TaskForm
+from task_app.mixins import UserIsOwner
+from django.http import HttpResponseRedirect
 
 class TaskListView(ListView):
     model = models.Task
@@ -24,6 +26,20 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+    
+class TaskCompleteView(LoginRequiredMixin, UserIsOwner, View):
+    def post(self, request, *args, **kwargs):
+        task = self.get_object()
+        task.status = "done"
+        task.save()
+        return HttpResponseRedirect(reverse_lazy('tasks:task_list'))
+    
+    def get_object(self):
+        task_id = self.kwargs.get("pk")
+        return get_object_or_404(models.Task, pk=task_id)
+
+    
+
     
 
 
