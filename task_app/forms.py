@@ -7,3 +7,12 @@ class TaskForm(forms.ModelForm):
         fields = ["title", "description", "status", "priority", "due_date"]  
 
 
+class TaskFilterForm(forms.Form):
+        STATUS_CHOICES = [
+        ("", "All"),
+        ("todo", "To Do"),
+        ("in_progress", "In progress"),
+        ("done", "Done"),
+        ]
+        
+        status = forms.ChoiceField(choices=STATUS_CHOICES, required=False, label="Status")
