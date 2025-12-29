@@ -82,3 +82,11 @@ ls   # Показує файли (має бути manage.py)
 (venv) PS D:\reservation_django\reservation_system_py> cd ..
 (venv) PS D:\reservation_django> cd reservation_system_py-1
 (venv) PS D:\reservation_django\reservation_system_py-1> ls
+
+<i class="bi bi-person-circle"></i> add profile logo 
+<i class="bi bi-chat-left-fill"></i> comment logo 
+<i class="bi bi-pencil-square"></i> edit logo
+<i class="bi bi-calendar-fill"></i> calendar logo
+<i class="bi bi-plus-circle-fill"></i> add folder of task
+<i class="bi bi-calendar-plus"></i> calendar logo for form
+<i class="bi bi-flag-fill"></i> priorety flag
