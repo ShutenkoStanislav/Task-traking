@@ -1,36 +1,72 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-3">
-    <h2>Task list</h2>
-    <a href="{% url 'tasks:task-create' %}" class="btn btn-primary mb-3">Add task</a>
+<div class="d-flex">
+    <div class="bg-light border-end" style="width: 22%; min-height: 100vh;">
+  
+        <div class="dropdown-center mb-3">
+            <button class="btn btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle"></i> Username
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Log out</a></li>
+                <li><a class="dropdown-item" href="#">Sign in</a></li>
+            </ul>
+        </div>
 
-    <br>
+        <div class="d-flex flex-column align-items-start gap-3">
+            <a class="btn btn-lg" href="{% url 'tasks:task-create' %}">
+                <i class="bi bi-plus-circle-fill"></i> Add note
+            </a>
+            <a class="btn btn-lg" href="#">
+                <i class="bi bi-plus-circle-fill"></i> Add folder
+            </a>
+            <a class="btn btn-lg" href="#">
+                <i class="bi bi-calendar-fill"></i> Today
+            </a>
+            <h2>My tasks</h2>
+        </div>
 
-    <form method="get" class="form-inline mb-3">
-        {{ form.status.label_tag }}
-        {{ form.status}}
-        <button type="submit" class="btn btn-primary ml-2">Filter</button>
-    </form>
-
-    <ul class="list-group">
-        {% for task in tasks %}
-        <li class="list-group-item d-flex justify-content-between aling-items-center">
-            <div>
-                <a href="{% url 'tasks:task_detail' task.pk %}">{{ task.title }} </a>
-                <span class="badge text-bg-primary">{{ task.status }}</span>
-                <span class="badge text-bg-info">{{ task.priority }}</span>
-            </div>
-            <form action="{% url 'tasks:task-complete' task.pk %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-margin btn-sm">Done the task</button>
-            </form>
+        <div class="d-flex flex-column align-items-start gap-3 ps-4">
+            {% for task in tasks %}
+                <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">{{ task.title }}</a>
+            {% endfor%}
+        </div>
+    </div>
 
 
-        </li>
-        {% empty %}
-        <li class="list-group-item">Tasks not found</li>
-        {% endfor %}
+    <div class="flex-grow-1 p-4" >
+        <h2>Task list</h2>
 
-    </ul>
+        <br>
+
+        <form method="get" class="form-inline mb-3">
+            {{ form.status.label_tag }}
+            {{ form.status}}
+            <button type="submit" class="btn btn-primary ml-2">Filter</button>
+        </form>
+
+        <ul class="list-group">
+            {% for task in tasks %}
+            <li class="list-group-item d-flex justify-content-between aling-items-center">
+                <div>
+                    <h3>{{ task.title }}</h3>
+                    <span class="badge text-bg-primary">{{ task.status }}</span>
+                    <span class="badge text-bg-info">{{ task.priority }}</span>
+                </div>
+                <form action="{% url 'tasks:task-complete' task.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-margin btn-sm">Done the task</button>
+                </form>
+            </li>
+            {% empty %}
+            <li class="list-group-item">Tasks not found</li>
+            {% endfor %}
+
+        </ul>
+    </div>
 </div>
+
+
 {% endblock %}
