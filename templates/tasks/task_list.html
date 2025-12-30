@@ -30,7 +30,7 @@
 
         <div class="d-flex flex-column align-items-start gap-3 ps-4">
             {% for task in tasks %}
-                <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">{{ task.title }}</a>
+                <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">#{{ task.title }}</a>
             {% endfor%}
         </div>
     </div>
@@ -51,7 +51,7 @@
             {% for task in tasks %}
             <li class="list-group-item d-flex justify-content-between aling-items-center">
                 <div>
-                    <h3>{{ task.title }}</h3>
+                    <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">{{ task.title }}</a>
                     <span class="badge text-bg-primary">{{ task.status }}</span>
                     <span class="badge text-bg-info">{{ task.priority }}</span>
                 </div>
@@ -59,10 +59,16 @@
                     {% csrf_token %}
                     <button type="submit" class="btn btn-margin btn-sm">Done the task</button>
                 </form>
+                
+
             </li>
+           
             {% empty %}
             <li class="list-group-item">Tasks not found</li>
             {% endfor %}
+            <a class="btn btn-lg" href="{% url 'tasks:task-create' %}">
+                    <i class="bi bi-plus-circle-fill"></i> Add note
+                </a>
 
         </ul>
     </div>
