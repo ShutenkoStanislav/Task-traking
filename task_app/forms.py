@@ -11,6 +11,8 @@ class TaskForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({"class": "form-control"})
 
         self.fields['due_date'].widget.attrs["class"] += " my-custom=datepicker"
+
+
             
                  
 
@@ -29,4 +31,5 @@ class TaskFilterForm(forms.Form):
         super(TaskFilterForm, self).__init__(*args, **kwargs)
         self.fields['status'].widget.attrs.update({"class": "form-select"})
 
+   
     

@@ -1,6 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class Folder(models.Model):
+
+    COLOR_VARIATION = [
+        ("#5d8aa8", "Air blue"),
+        ("#9966cc", "Amethust"),
+        ("#008000", "Apple Green"),
+        ("#ff033e", "Red rose"),
+        ("#ffe135", "Banana yellow"),
+        ("#ff6500", "Sunset"),
+        ("#000000", "Black"),
+    ]
+    color = models.CharField(max_length=30, choices=COLOR_VARIATION, default="Black")
+    name = models.CharField(max_length=128)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+    
 class Task(models.Model):
 
     STATUS_CHOICES = [
@@ -21,9 +40,18 @@ class Task(models.Model):
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default="low")
     due_date = models.DateField(null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="trasks")
+    folder = models.ForeignKey(
+                Folder,
+                on_delete=models.CASCADE,
+                related_name="tasks_rel",
+                null=True,
+                blank=True,)
 
     def __str__(self):
         return self.title
+    
+
+
 
     
 
