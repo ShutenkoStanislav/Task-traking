@@ -37,7 +37,7 @@
 
 
     <div class="flex-grow-1 p-4" >
-        <h2>Task list</h2>
+        <h2>/Folder name</h2>
 
         <br>
 
@@ -50,10 +50,10 @@
         <ul class="list-group">
             {% for task in tasks %}
             <li class="list-group-item d-flex justify-content-between aling-items-center">
-                <div>
+                <div class="d-flex flex-column gap-2">
                     <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">{{ task.title }}</a>
+                    <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">{{ task.description }}</a>
                     <span class="badge text-bg-primary">{{ task.status }}</span>
-                    <span class="badge text-bg-info">{{ task.priority }}</span>
                 </div>
                 <form action="{% url 'tasks:task-complete' task.pk %}" method="post">
                     {% csrf_token %}
