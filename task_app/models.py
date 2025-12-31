@@ -16,6 +16,8 @@ class Folder(models.Model):
     color = models.CharField(max_length=30, choices=COLOR_VARIATION, default="Black")
     name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+  
 
     def __str__(self):
         return self.name

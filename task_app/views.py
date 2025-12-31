@@ -3,7 +3,7 @@ from task_app import models
 from django.views.generic import ListView, DetailView, CreateView, View, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from task_app.forms import TaskForm, TaskFilterForm
+from task_app.forms import TaskForm, TaskFilterForm, FolderForm
 from task_app.mixins import UserIsOwner
 from django.http import HttpResponseRedirect
 
@@ -38,6 +38,14 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+    
+class FolderCreateView(LoginRequiredMixin, CreateView):
+    model = models.Folder
+    success_url = reverse_lazy('tasks:task_list')
+    template_name = "tasks/folder_form.html"
+    form_class = FolderForm
+    
+    
     
 class TaskCompleteView(LoginRequiredMixin, UserIsOwner, View):
     def post(self, request, *args, **kwargs):

@@ -1,5 +1,5 @@
 from django import forms
-from task_app.models import Task
+from task_app.models import Task, Folder
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -11,6 +11,19 @@ class TaskForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({"class": "form-control"})
 
         self.fields['due_date'].widget.attrs["class"] += " my-custom=datepicker"
+
+class FolderForm(forms.ModelForm):
+    class Meta:
+        model = Folder
+        fields = ["name", "color"]
+    def __init__(self, *args, **kwargs):
+        super(FolderForm, self).__init__(*args, **kwargs)
+        for fielde in self.fields:
+            self.fields[fielde].widget.attrs.update({"class": "form-control"})
+        self.fields["color"].widget.attrs.update({"class": "form-select"})
+            
+
+
 
 
             
