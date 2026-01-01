@@ -22,6 +22,8 @@ class TaskListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = TaskFilterForm(self.request.GET)
+        context["task_form"] = TaskForm
+        context["folder_form"] = FolderForm
         return context
 
 class TaskDetailView(DetailView):
