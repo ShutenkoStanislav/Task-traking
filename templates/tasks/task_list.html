@@ -106,9 +106,17 @@
                 </div>
 
                 <form method="post" action="{% url 'tasks:folder-create' %}">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{ form.as_p }}
+                    <div class="modal-body p-4">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Name</label>
+                            {{ folder_form.name }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Color</label>
+                            {{ folder_form.color }}
+                        </div>
+                        
                     </div>
                 </form>
 
@@ -152,7 +160,7 @@
             {% empty %}
             <li class="list-group-item">Tasks not found</li>
             {% endfor %}
-            <a class="btn btn-lg" href="{% url 'tasks:task-create' %}">
+            <a class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#TaskModal">
                     <i class="bi bi-plus-circle-fill"></i> Add note
                 </a>
 
