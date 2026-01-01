@@ -22,8 +22,8 @@ class TaskListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = TaskFilterForm(self.request.GET)
-        context["task_form"] = TaskForm
-        context["folder_form"] = FolderForm
+        context["task_form"] = TaskForm()
+        context["folder_form"] = FolderForm()
         return context
 
 class TaskDetailView(DetailView):
@@ -33,6 +33,7 @@ class TaskDetailView(DetailView):
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = models.Task
+    context_object_name = "taskes"
     success_url = reverse_lazy('tasks:task_list')
     template_name = "tasks/task_form.html"
     form_class = TaskForm
@@ -43,6 +44,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     
 class FolderCreateView(LoginRequiredMixin, CreateView):
     model = models.Folder
+    context_object_name = "folders"
     success_url = reverse_lazy('tasks:task_list')
     template_name = "tasks/folder_form.html"
     form_class = FolderForm

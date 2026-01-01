@@ -4,7 +4,7 @@ from task_app.models import Task, Folder
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["title", "description", "status", "priority", "due_date"] 
+        fields = ["title", "description", "status", "priority", "due_date", "folder"] 
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         for field in self.fields:
