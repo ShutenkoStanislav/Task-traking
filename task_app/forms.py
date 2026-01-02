@@ -7,10 +7,36 @@ class TaskForm(forms.ModelForm):
         fields = ["title", "description", "status", "priority", "due_date", "folder"] 
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({"class": "form-control"})
+        
+        self.fields['title'].widget.attrs.update({
+            "class": "form-control transparent-input",
+            "placeholder" : "Title"
+        })
 
-        self.fields['due_date'].widget.attrs["class"] += " my-custom=datepicker"
+        self.fields['description'].widget.attrs.update({
+            "class": "form-control transparent-input",
+            "placeholder" : "Content"
+        })
+
+        self.fields['due_date'].widget.attrs.update({
+            "class": "form-control transparent-input",
+            "placeholder" : "Date",
+            "type": "date"
+        })
+
+        self.fields['priority'].widget.attrs.update({
+            "class": "form-control transparent-input",
+            "placeholder" : "Priority"
+            
+        })
+
+        self.fields['folder'].widget.attrs.update({
+            "class": "form-control transparent-input",
+            "placeholder" : "Folder"
+            
+        })
+
+        
 
 class FolderForm(forms.ModelForm):
     class Meta:
@@ -18,9 +44,12 @@ class FolderForm(forms.ModelForm):
         fields = ["name", "color"]
     def __init__(self, *args, **kwargs):
         super(FolderForm, self).__init__(*args, **kwargs)
-        for fielde in self.fields:
-            self.fields[fielde].widget.attrs.update({"class": "form-control"})
-        self.fields["color"].widget.attrs.update({"class": "form-select"})
+        
+            
+        self.fields['name'].widget.attrs.update({
+            "class": "form-control transparent-input",
+            "placeholder" : "Name"
+        })
             
 
 

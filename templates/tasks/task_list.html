@@ -51,13 +51,17 @@
                         {% csrf_token %}
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Title</label>
-                            {{ task_form.title }}
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Title" id="TitleTextarea"></textarea>
+                                <label for="TitleTextarea">Title</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Content</label>
-                            {{ task_form.description }}
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Content" id="ContentTextarea"></textarea>
+                                <label for="ContentTextarea">Content</label>
+                            </div>
                         </div>
 
                         <div class="row g-3">
@@ -108,8 +112,10 @@
                 <form method="post" action="{% url 'tasks:folder-create' %}">
                     <div class="modal-body p-4">
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Name</label>
-                            {{ folder_form.name }}
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Name" id="NameTextarea"></textarea>
+                                <label for="NameTextarea">Name</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
