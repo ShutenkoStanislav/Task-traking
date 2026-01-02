@@ -1,3 +1,35 @@
+.modal .noborder-input {
+    background-color: transparent;
+    border: none;
+    color: #202020;
+    padding: 8px 0;
+    transition: all 0.2s ease;
+}
+
+.modal .noborder-input:focus {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    
+}
+
+.modal .noborder-input::placeholder {
+    color: #959595;
+    opacity: 1;
+}
+
+.modal .title-input {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.modal .content-input {
+    font-size: 14px;
+    font-weight: 400;
+    resize: none;
+}
+
 .modal .transparent-input {
     background-color: transparent;
     border: 1px solid rgba(0, 0, 0, 0.15);
@@ -19,7 +51,7 @@
 }
 
 .modal label {
-    display: none;
+    display: none !important;
 }
 
 .modal-content {

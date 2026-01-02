@@ -9,12 +9,12 @@ class TaskForm(forms.ModelForm):
         super(TaskForm, self).__init__(*args, **kwargs)
         
         self.fields['title'].widget.attrs.update({
-            "class": "form-control transparent-input",
+            "class": "form-control noborder-input title-input",
             "placeholder" : "Title"
         })
 
         self.fields['description'].widget.attrs.update({
-            "class": "form-control transparent-input",
+            "class": "form-control noborder-input content-input",
             "placeholder" : "Content"
         })
 

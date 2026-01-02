@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from task_app import models
+from .models import Folder
 from django.views.generic import ListView, DetailView, CreateView, View, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -24,6 +25,7 @@ class TaskListView(ListView):
         context["form"] = TaskFilterForm(self.request.GET)
         context["task_form"] = TaskForm()
         context["folder_form"] = FolderForm()
+        context["folders"] = Folder.objects.all()
         return context
 
 class TaskDetailView(DetailView):
