@@ -32,7 +32,7 @@ class TaskForm(forms.ModelForm):
 
         self.fields['folder'].widget.attrs.update({
             "class": "form-control transparent-input",
-            "placeholder" : "Folder"
+            "placeholder" : "Folder",
             
         })
 
@@ -47,7 +47,7 @@ class FolderForm(forms.ModelForm):
         
             
         self.fields['name'].widget.attrs.update({
-            "class": "form-control transparent-input",
+            "class": "form-control noborder-input content-input",
             "placeholder" : "Name"
         })
             

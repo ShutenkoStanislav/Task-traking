@@ -20,35 +20,16 @@
 }
 
 .modal .title-input {
-    font-size: 20px;
+    font-size: 40px;
     font-weight: 600;
 }
 
 .modal .content-input {
-    font-size: 14px;
+    font-size: 28px;
     font-weight: 400;
     resize: none;
 }
 
-.modal .transparent-input {
-    background-color: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    color: #333;
-    transition: all 0.3s ease;
-}
-
-.modal .transparent-input:focus {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: #677eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
-    outline: none;
-    
-}
-
-.modal .transparent-input::placeholder {
-    color: rgba(0, 0, 0, 0.4);
-    opacity: 1;
-}
 
 .modal label {
     display: none !important;
@@ -74,7 +55,3 @@
     padding: 1rem 1.5rem;
 }
 
-.modal textarea.transparent-input {
-    resize: vertical;
-    min-height: 100px;
-}
