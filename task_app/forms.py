@@ -5,6 +5,13 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ["title", "description", "status", "priority", "due_date", "folder"] 
+        widgets = {
+            'due_date': forms.DateInput(attrs={
+                "class": "form-control transparent-input",
+                "placeholder" : "Date",
+                "type": "date"
+            })
+        }
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         
@@ -18,11 +25,8 @@ class TaskForm(forms.ModelForm):
             "placeholder" : "Content"
         })
 
-        self.fields['due_date'].widget.attrs.update({
-            "class": "form-control transparent-input",
-            "placeholder" : "Date",
-            "type": "date"
-        })
+       
+    
 
         self.fields['priority'].widget.attrs.update({
             "class": "form-control transparent-input",

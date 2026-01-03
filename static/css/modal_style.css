@@ -55,3 +55,18 @@
     padding: 1rem 1.5rem;
 }
 
+
+.modal input[type="date"] {
+    position: relative;
+    padding: 8px 12px;
+}
+
+
+.modal input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.modal input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}

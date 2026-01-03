@@ -135,22 +135,21 @@
 
     <div class="flex-grow-1 p-4" >
         <h2>/Folder name</h2>
-
         <br>
-
         <form method="get" class="form-inline mb-3">
             {{ form.status.label_tag }}
             {{ form.status}}
             <button type="submit" class="btn btn-primary ml-2">Filter</button>
         </form>
-
-        <ul class="list-group">
+        <br>
+        <ul>
             {% for task in tasks %}
             <li class="list-group-item d-flex justify-content-between aling-items-center">
                 <div class="d-flex flex-column gap-2">
+                    <h1> {{task.due_date }}</h1>
                     <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">{{ task.title }}</a>
                     <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">{{ task.description }}</a>
-                    <span class="badge text-bg-primary">{{ task.status }}</span>
+                       
                 </div>
                 <form action="{% url 'tasks:task-complete' task.pk %}" method="post">
                     {% csrf_token %}
@@ -159,6 +158,7 @@
                 
 
             </li>
+            <hr>
            
             {% empty %}
             <li class="list-group-item">Tasks not found</li>
