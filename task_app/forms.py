@@ -50,6 +50,12 @@ class FolderForm(forms.ModelForm):
             "class": "form-control noborder-input content-input",
             "placeholder" : "Name"
         })
+
+        self.fields['color'].widget.attrs.update({
+            "class": "form-control transparent-input",
+            "placeholder" : "Color"
+            
+        })
             
 
 

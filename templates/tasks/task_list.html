@@ -11,7 +11,7 @@
   
         <div class="dropdown-center mb-3">
             <button class="btn btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle"></i> Username
+                <i class="bi bi-person-circle"></i>  {{ user.username}}
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -65,8 +65,7 @@
                             <label class="form-label"></label>
                             {{ task_form.description }}
                         </div>
-
-
+                        <br>
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <label class="form-label"></label>
@@ -113,10 +112,12 @@
                             <label class="form-label"></label>
                             {{ folder_form.name }}
                         </div>
-
-                        <div class="mb-3">
-                            <label class="form-label"></label>
-                            {{ folder_form.color }}
+                        <br>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label"></label>
+                                {{  folder_form.color }}
+                            </div>
                         </div>
                         
                     </div>
