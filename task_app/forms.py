@@ -4,7 +4,7 @@ from task_app.models import Task, Folder
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["title", "description", "status", "priority", "due_date", "folder"] 
+        fields = ["title", "description", "priority", "due_date", "folder"] 
         widgets = {
             'due_date': forms.DateInput(attrs={
                 "class": "form-control transparent-input",
@@ -70,18 +70,17 @@ class FolderForm(forms.ModelForm):
 
 
 class TaskFilterForm(forms.Form):
-    STATUS_CHOICES = [
-    ("", "All"),
-    ("todo", "To Do"),
-    ("in_progress", "In progress"),
-    ("done", "Done"),
-    ]
+    PRIORITY_CHOICES = [
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
+                ]
         
-    status = forms.ChoiceField(choices=STATUS_CHOICES, required=False, label="Status")
+    priority = forms.ChoiceField(choices=PRIORITY_CHOICES, required=False, label="Priority")
 
     def __init__(self, *args, **kwargs):
         super(TaskFilterForm, self).__init__(*args, **kwargs)
-        self.fields['status'].widget.attrs.update({"class": "form-select"})
+        self.fields['priority'].widget.attrs.update({"class": "form-select"})
 
    
     
