@@ -28,7 +28,22 @@ def login_view(request):
         form = AuthenticationForm(
             request,
             data=request.POST,
-        )
+            )
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request,
+                                username=username,
+                                password=password
+                        )
+            if user is not None:
+                auth_login(request, user)
+                return redirect("task_list")
+            else:
+                messages.error(request, "Incorrect login or password")
+        else:
+            messages.error(request, "Invalid data for form")
+
     else:
         form = AuthenticationForm()
     return render(request, "auth_systems/login.html", {'form' : form})
