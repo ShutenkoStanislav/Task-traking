@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth_sys.css' %}">
+{% endblock %}
+
+<div class="wrapper_login">
+    <div class="login_container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="text-center mb-4">
+                <h1>Welcome back, user!</h1>
+            </div>
+            <br>
+            {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    Check is username or password correct
+                </div>
+            {% endif %}
+
+            <div class="input_group">
+                <div class="mb-3">
+                    <input class="form-control form-control-lg" type="text" name="login" placeholder="Login" required>
+                </div>
+
+                <div class="mb-3">
+                    <input class="form-control form-control-lg" type="password" name="password" placeholder="Password" required>
+                </div>  
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-dark btn-lg me-5">Login</button>
+            </div>
+
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

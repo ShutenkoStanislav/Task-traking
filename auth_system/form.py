@@ -1,8 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
-from task_app.models import Task
+from django.contrib.auth.models import User
 
 class LoginForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        model = Task
+        model = User
         fields = UserCreationForm.Meta.fields = ("first_name", "last_name", "email", "username")
         

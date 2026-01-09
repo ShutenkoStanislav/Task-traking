@@ -2,6 +2,7 @@ from django.urls import path
 from auth_system import views
 from django.contrib.auth import views as auth_views
 
+app_name = "taskes"
 
 urlpatterns = [
     path("singin/", views.register, name="register"),

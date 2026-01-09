@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'task_app'
+    'task_app',
+    'auth_system',
 ]
 
 MIDDLEWARE = [
@@ -123,8 +124,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "auth_system."
 
-LOGIN_URL = "/admin/login/"
-LOGOUT_REDIRECT_URL = "/admin/login/"
+
+LOGIN_URL = "login/"
+LOGOUT_REDIRECT_URL = "logout/"
 LOGIN_REDIRECT_URL = "task_list"
