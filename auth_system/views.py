@@ -19,7 +19,7 @@ def register(request):
 
     return render(
         request,
-        template_name="auth_systems/singin.html",
+        template_name="auth/singin.html",
         context= {'form' : form},
     )
 
@@ -46,5 +46,5 @@ def login_view(request):
 
     else:
         form = AuthenticationForm()
-    return render(request, "auth_systems/login.html", {'form' : form})
+    return render(request, "auth/login.html", {'form' : form})
 
