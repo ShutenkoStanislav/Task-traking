@@ -70,3 +70,39 @@
 .modal input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
 }
+
+
+/* Auth */
+
+.login_container {
+    background-color: #D9D9D9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    color: black;
+    padding: 70px;
+    max-width: 100%;
+}
+
+.singin_container {
+    padding: 50px;
+    
+}
+
+.wrapper_login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 180px;
+}
+
+.wrapper_singin {
+    padding: 120px;
+}
+
+.input_group {
+    margin-bottom: -20px;
+    border-radius: 8px;
+}
+
+

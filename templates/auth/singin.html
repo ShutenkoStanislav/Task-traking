@@ -2,23 +2,21 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/auth_sys.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal_styles.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="wrapper_singin">
+<div class="wrapper_login wrapper_singin">
     <div class="login_container singin_container">
         <form method="post">
             {% csrf_token %}
             <div class="text-center mb-4">
-                Let's create account
+                <h1>Let's create account</h1>
             </div>
+            
+            <hr>
             <br>
-            {% if form.errors %}
-                <div class="alert alert-danger" role="alert">
-                    Check is all data valid
-                </div>
-            {% endif %}
+            
 
             <div class="input_group">
                 <div class="mb-3">
@@ -38,10 +36,9 @@
                     <input class="form-control form-control-lg" type="password" name="password" placeholder="Password" required>
                 </div>
                 <br>
-
-            </div>
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-dark btn-lg me-5">Sing in</button>
+                <div class="text-center mb-4">
+                    <button type="submit" class=" btn btn-dark btn-lg">Sing in</button>
+                </div>
             </div>
 
             <input type="hidden" name="next" value="{{ next }}">

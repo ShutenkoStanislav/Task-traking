@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/auth_sys.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal_styles.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -10,15 +10,12 @@
     <div class="login_container">
         <form method="post">
             {% csrf_token %}
+            <br>
             <div class="text-center mb-4">
                 <h1>Welcome back, user!</h1>
             </div>
+            <hr>
             <br>
-            {% if form.errors %}
-                <div class="alert alert-danger" role="alert">
-                    Check is username or password correct
-                </div>
-            {% endif %}
 
             <div class="input_group">
                 <div class="mb-3">
@@ -30,8 +27,8 @@
                 </div>  
             </div>
 
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-dark btn-lg me-5">Login</button>
+            <div class="text-center mb-4">
+                <button type="submit" class="btn btn-dark btn-lg">Login</button>
             </div>
 
             <input type="hidden" name="next" value="{{ next }}">
