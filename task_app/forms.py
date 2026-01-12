@@ -1,5 +1,7 @@
 from django import forms
 from task_app.models import Task, Folder
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -60,6 +62,15 @@ class FolderForm(forms.ModelForm):
             "placeholder" : "Color"
             
         })
+
+
+
+
+class SinginForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields = ("first_name", "last_name", "email", "username")
+        
             
 
 

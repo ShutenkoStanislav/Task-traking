@@ -12,5 +12,10 @@ urlpatterns = [
     path('task-create/', views.TaskCreateView.as_view(), name="task-create"),
     path('folder-create/', views.FolderCreateView.as_view(), name="folder-create"),
     path('<int:pk>/complete/', views.TaskCompleteView.as_view(), name="task-complete"),
+    path('login/', views.CustomLoginView.as_view(), name="login"),
+    path('logout/', views.CustomLogoutView.as_view(), name="logout"),
+    path('sing-in/', views.RegisterViews.as_view(), name="register")
+    
+
 ]
 

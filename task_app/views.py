@@ -1,12 +1,17 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from task_app import models
 from .models import Folder
 from django.views.generic import ListView, DetailView, CreateView, View, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from task_app.forms import TaskForm, TaskFilterForm, FolderForm
+from task_app.forms import TaskForm, TaskFilterForm, FolderForm, SinginForm
 from task_app.mixins import UserIsOwner
 from django.http import HttpResponseRedirect
+from django.contrib.auth.views import LoginView, LogoutView
+
+from django.contrib.auth import login
+
+
 
 class TaskListView(ListView):
     model = models.Task
@@ -76,11 +81,24 @@ class TaskDeleteView(LoginRequiredMixin, UserIsOwner, DeleteView):
     success_url = reverse_lazy('tasks:task_list')
     template_name = "tasks/task_delete_form.html"
     
+class CustomLoginView(LoginView):
+    template_name = "auth/login.html"
+    redirect_authenticated_user = True
+        
 
     
+class CustomLogoutView(LogoutView):
+    next_page = "tasks:login"
 
-    
+class RegisterViews(CreateView):
+    template_name = "auth/singin.html"
+    form_class = SinginForm
+   
 
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect("tasks:login")
 
     
 

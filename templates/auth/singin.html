@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="wrapper_login wrapper_singin">
-    <div class="login_container singin_container">
+<div class="auth-wrapper singin-wrapper">
+    <div class="auth-container singin-container">
         <form method="post">
             {% csrf_token %}
             <div class="text-center mb-4">
@@ -33,9 +33,12 @@
                     <input class="form-control form-control-lg" type="text" name="username" placeholder="Username" required>
                 </div>
                 <div class="mb-3">
-                    <input class="form-control form-control-lg" type="password" name="password" placeholder="Password" required>
+                    <input class="form-control form-control-lg" type="password" name="password1" placeholder="Password" required>
                 </div>
-                <br>
+                <div class="mb-3">           
+                    <input class="form-control form-control-lg" type="password" name="password2" placeholder="Confirm password" required>
+                </div>
+                
                 <div class="text-center mb-4">
                     <button type="submit" class=" btn btn-dark btn-lg">Sing in</button>
                 </div>
