@@ -4,7 +4,7 @@ from .models import Folder
 from django.views.generic import ListView, DetailView, CreateView, View, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from task_app.forms import TaskForm, TaskFilterForm, FolderForm, SinginForm
+from task_app.forms import TaskForm, TaskFilterForm, FolderForm, SinginForm, CommentForm
 from task_app.mixins import UserIsOwner
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import LoginView, LogoutView
@@ -33,10 +33,26 @@ class TaskListView(ListView):
         context["folders"] = Folder.objects.all()
         return context
 
-class TaskDetailView(DetailView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
     model = models.Task
     context_object_name = "task"
     template_name = "tasks/task_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        comment_form = CommentForm(request.POST, request.FILES)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            comment.task = self.get_object()
+            comment.save()
+            return redirect("tasks:task_detail", pk=comment.task.pk)
+        else:
+            pass
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = models.Task

@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block content %}
+{% load custom_tags %}
 
 <div class="container mt-3">
     <h2>{{ task.title }}</h2>
@@ -8,5 +9,47 @@
     <p>Priority: <span class="badge badge-secondary">{{ task.priority }}</span></p>
     <a href="{% url 'tasks:task_update' task.id %}" class="btn btn-warning">Edit</a>
     <a href="{% url 'tasks:task_delete' task.id %}" class="btn btn-danger">Delete</a>
+</div>
+
+
+<div class="comments mt-4">
+    <h3>Comments</h3>
+    {% for comment in task.comments.all %}
+        <div class="comment mb-2">
+            <small>{{ comment.author.username }}</small>
+            <p>{{ comment.content }}</p>
+
+            {% if comment.media %}
+                <div class="comment-media">
+                    {% if comment.media.url|endswith:".jpg" or comment.media.url|endswith:".png" or comment.media.url|endswith:".jpeg" %}
+                        <img src="{{ comment.media.url }}" alt="Comment image" style="max-width: 1000px;">
+                    {% elif comment,media.url|endswith:".mp4"}
+                        <video width="320" height="240" controls>
+                            <source src="{{ comment.media.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% else %}
+                        <a href="{{ comment.media.url }}">Download file</a>
+                    {% endif %}
+                </div>
+            {% endif%}
+            
+        </div>
+
+    {% empty %}
+        <h3>No comments</h3>
+
+    {% endfor %}
+
+
+    <div class="add-comment mt-4">
+        <form action="{% url 'tasks:task_detail' task.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-danger">Cancel</button>
+            <button type="submit" class="btn btn-dark">Comment</button>
+
+        </form>
+    </div>
 </div>
 {% endblock %}

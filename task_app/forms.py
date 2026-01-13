@@ -1,5 +1,5 @@
 from django import forms
-from task_app.models import Task, Folder
+from task_app.models import Task, Folder, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -73,7 +73,20 @@ class SinginForm(UserCreationForm):
         
             
 
-
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content', 'media']
+        wigets = {
+            "media": forms.FileInput()
+        }
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.fields['content'].widget.attrs.update({
+            "class": "form-floating",
+            
+            
+        })
 
 
             
