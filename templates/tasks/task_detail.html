@@ -15,33 +15,33 @@
 <div class="comments mt-4">
     <h3>Comments</h3>
     {% for comment in task.comments.all %}
-        <div class="comment mb-2">
-            <small>{{ comment.author.username }}</small>
-            <p>{{ comment.content }}</p>
+        <div class="comment mb-3 p-3 border rounded">
+            <div class="d-flex justify-content-between">
+                <strong>{{ comment.author.username }}</strong>
+            </div>
+            <p class="mt-2">{{ comment.content }}</p>
 
             {% if comment.media %}
-                <div class="comment-media">
-                    {% if comment.media.url|endswith:".jpg" or comment.media.url|endswith:".png" or comment.media.url|endswith:".jpeg" %}
-                        <img src="{{ comment.media.url }}" alt="Comment image" style="max-width: 1000px;">
-                    {% elif comment,media.url|endswith:".mp4"}
-                        <video width="320" height="240" controls>
+                <div class="comment-media mt-2">
+                    {% if comment.media.url|endswith:".jpg" or comment.media.url|endswith:".png" or comment.media.url|endswith:".jpeg" or comment.media.url|endswith:".gif" %}
+                        <img src="{{ comment.media.url }}" alt="Comment image" class="img-fluid" style="max-width: 256px; border-radius: 8px;">
+                    {% elif comment.media.url|endswith:".mp4" %}
+                        <video style="max-width: 256px; width: 100%; border-radius: 8px;" controls>
                             <source src="{{ comment.media.url }}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     {% else %}
-                        <a href="{{ comment.media.url }}">Download file</a>
+                        <a href="{{ comment.media.url }}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-download"></i> Download file
+                        </a>
                     {% endif %}
                 </div>
-            {% endif%}
-            
+            {% endif %}
         </div>
 
     {% empty %}
-        <h3>No comments</h3>
-
+        <p class="text-muted">No comments yet</p>
     {% endfor %}
-
-
     <div class="add-comment mt-4">
         <form action="{% url 'tasks:task_detail' task.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}

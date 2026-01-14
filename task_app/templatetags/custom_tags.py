@@ -4,5 +4,5 @@ register = template.Library()
 
 
 @register.filter(name="endswith")
-def endswith(value, arg):
+def endswith(value, arg): 
     return value.lower().endswith(arg.lower())

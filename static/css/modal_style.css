@@ -116,4 +116,25 @@
     border-radius: 8px;
 }
 
+/* task list */
+
+.task-area {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3 ease;
+}
+
+.task-area:hover {
+    border-color: #000 !important;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.task-area * {
+    pointer-events: none;
+}
+
+.task-area .detail_link {
+    pointer-events: auto;
+}
+
 
