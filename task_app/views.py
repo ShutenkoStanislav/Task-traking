@@ -71,8 +71,12 @@ class FolderCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('tasks:task_list')
     template_name = "tasks/folder_form.html"
     form_class = FolderForm
-    
-    
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+  
     
 class TaskCompleteView(LoginRequiredMixin, UserIsOwner, View):
     def post(self, request, *args, **kwargs):
