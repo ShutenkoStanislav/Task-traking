@@ -133,7 +133,10 @@
     pointer-events: none;
 }
 
-.task-area .detail_link {
+.task-area .detail_link,
+.task-area .form-check,
+.task-area .form-check-input
+{
     pointer-events: auto;
 }
 
