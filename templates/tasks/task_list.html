@@ -162,8 +162,13 @@
                 <li class="list-group-item  border-0 p-1 bg-transparent" style="min-height: 80px;"> 
                     <div class="task-area d-flex align-items-center p-3">
                         <div class="form-check ms-2" style="z-index: 10;"> 
-                            <input class="form-check-input" type="radio" name="radioDefault" id="radioTask{{ task.pk }}" style="transform: scale(1.5); cursor: pointer;">
-                            <label class="form-check-label" for="radioTask{{ task.pk }}"></label>
+                            <input  class="form-check-input task-complete-input"
+                                    type="checkbox"
+                                    name="checkboxDefault"
+                                    id="checkboxTask{{ task.pk }}" 
+                                    data-url="{% url 'tasks:task-complete' task.pk %}"
+                                    style="transform: scale(1.5); cursor: pointer;">
+                            <label class="form-check-label" for="checkboxTask{{ task.pk }}"></label>
                         </div>
                     
                         <div class="flex-grow-1 p-3">

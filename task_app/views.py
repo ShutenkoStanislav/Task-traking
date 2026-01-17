@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from task_app.forms import TaskForm, TaskFilterForm, FolderForm, SinginForm, CommentForm
 from task_app.mixins import UserIsOwner
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.views import LoginView, LogoutView
 
 from django.contrib.auth import login
@@ -20,10 +20,13 @@ class TaskListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        queryset = queryset.exclude(status="done")
+
         priority = self.request.GET.get("priority", "")
         if priority:
             queryset = queryset.filter(priority=priority)
-        return queryset
+        return queryset.order_by("-due_date", "-id")
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,7 +86,7 @@ class TaskCompleteView(LoginRequiredMixin, UserIsOwner, View):
         task = self.get_object()
         task.status = "done"
         task.save()
-        return HttpResponseRedirect(reverse_lazy('tasks:task_list'))
+        return JsonResponse({'status': 'success'})
     
     def get_object(self):
         task_id = self.kwargs.get("pk")
