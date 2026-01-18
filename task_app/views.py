@@ -21,19 +21,40 @@ class TaskListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        queryset = queryset.exclude(status="done")
+        folder_id = self.kwargs.get('folder_id')
 
-        priority = self.request.GET.get("priority", "")
+        if folder_id:
+            queryset = queryset.filter(folder_id=folder_id)
+        else:
+            queryset = queryset.filter(folder__isnull=True)
+        
+        status = self.request.GET.get('status')
+        priority = self.request.GET.get("priority")
+
+        if status:
+            queryset = queryset.filter(status=status)
+        else:
+           queryset = queryset.exclude(status="done")
+
         if priority:
             queryset = queryset.filter(priority=priority)
-        return queryset.order_by("-due_date", "-id")
+        return queryset.order_by("-due_date", "-created_at")
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        context["folders"] = Folder.objects.all()
+
+        folder_id = self.kwargs.get('folder_id')
+        if folder_id:
+            context['current_folder'] = Folder.objects.get(id=folder_id)
+        else:
+            context['current_folder'] = None
+
         context["form"] = TaskFilterForm(self.request.GET)
         context["task_form"] = TaskForm()
         context["folder_form"] = FolderForm()
-        context["folders"] = Folder.objects.all()
+        
         return context
 
 class TaskDetailView(LoginRequiredMixin, DetailView):

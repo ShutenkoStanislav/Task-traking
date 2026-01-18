@@ -149,7 +149,11 @@
 
 
     <div class="flex-grow-1 p-4" >
-        <h2>/Folder name</h2>
+        {% if current_folder %}
+            <h2>/{{ current_folder.name }}</h2>
+        {% else %}
+            <h2>Today</h2>
+        {% endif %}
         <br>
         <!-- <form method="get" class="form-inline mb-3">
             {{ form.priority.label_tag }}
