@@ -15,7 +15,11 @@ class TaskForm(forms.ModelForm):
             })
         }
     def __init__(self, *args, **kwargs):
+        current_folder = kwargs.pop('current_folder', None)
         super(TaskForm, self).__init__(*args, **kwargs)
+
+        if current_folder:
+            self.fields['folder'].initial = current_folder
         
         self.fields['title'].widget.attrs.update({
             "class": "form-control noborder-input title-input",
@@ -36,11 +40,7 @@ class TaskForm(forms.ModelForm):
             
         })
 
-        self.fields['folder'].widget.attrs.update({
-            "class": "form-control transparent-input",
-            "placeholder" : "Folder",
-            
-        })
+        
 
         
 

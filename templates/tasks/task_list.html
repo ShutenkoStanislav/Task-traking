@@ -43,15 +43,21 @@
             <a class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#FolderModal">
                 <i class="bi bi-plus-circle-fill"></i> Add folder
             </a>
-            <a class="btn btn-lg" href="#">
+            <a class="btn btn-lg" href="{% url 'tasks:task_list' %}">
                 <i class="bi bi-calendar-fill"></i> Today
             </a>
             <h2>My tasks</h2>
         </div>
 
         <div class="d-flex flex-column align-items-start gap-3 ps-4">
-            {% for task in tasks %}
-                <a class="btn btn-lg" href="{% url 'tasks:task_detail' task.pk %}">#{{ task.title }}</a>
+            {% for folder in folders %}
+                <a 
+                href="{% url 'tasks:folder-tasks' folder.pk %}"
+                class="btn btn-lg"
+                style="color: {{ folder.color }};"
+                >
+                #{{ folder.name }}</a>
+
             {% endfor%}
         </div>
     </div>
@@ -91,11 +97,7 @@
                                 <label class="form-label"></label>
                                 {{ task_form.priority }}
                             </div>
-                            
-                            <div class="col-md-4">
-                                <label class="form-label"></label>
-                                {{ task_form.folder }}
-                            </div>
+
                         </div>
                     </div>
 

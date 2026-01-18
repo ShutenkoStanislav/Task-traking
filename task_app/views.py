@@ -88,6 +88,11 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+    def get_success_url(self):
+        folder_id = self.object.folder_id
+        if folder_id:
+            return reverse_lazy('tasks:folder-tasks', kwargs={'folder_id': folder_id})
+        return reverse_lazy('tasks:task-list')
     
 class FolderCreateView(LoginRequiredMixin, CreateView):
     model = models.Folder
