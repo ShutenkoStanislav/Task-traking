@@ -8,6 +8,7 @@ from task_app.forms import TaskForm, TaskFilterForm, FolderForm, SinginForm, Com
 from task_app.mixins import UserIsOwner
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import login
 
@@ -151,6 +152,20 @@ class RegisterViews(CreateView):
         login(self.request, user)
         return redirect("tasks:login")
 
-    
+
+@login_required   
+def profile_details(request):
+    user = request.user
+
+    context = {
+        'user' : user,
+    }
+
+    return render(
+        request,
+        template_name='tasks/profile.html',
+        context=context,
+
+    )
 
 

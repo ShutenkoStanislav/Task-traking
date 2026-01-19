@@ -15,7 +15,8 @@ urlpatterns = [
     path('<int:pk>/complete/', views.TaskCompleteView.as_view(), name="task-complete"),
     path('login/', views.CustomLoginView.as_view(), name="login"),
     path('logout/', views.CustomLogoutView.as_view(), name="logout"),
-    path('sing-in/', views.RegisterViews.as_view(), name="register")
+    path('sing-in/', views.RegisterViews.as_view(), name="register"),
+    path('profile/', views.profile_details, name="profile"),
     
 
 ]
