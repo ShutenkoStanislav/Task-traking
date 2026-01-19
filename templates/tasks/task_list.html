@@ -48,17 +48,18 @@
             </a>
             <h2>My tasks</h2>
         </div>
+        <div data-simplebar style="max-height: 500px; overflow-x: hidden;">
+            <div class="d-flex flex-column align-items-start gap-3 ps-4">
+                {% for folder in folders %}
+                    <a 
+                    href="{% url 'tasks:folder-tasks' folder.pk %}"
+                    class="btn btn-lg"
+                    style="color: {{ folder.color }};"
+                    >
+                    #{{ folder.name }}</a>
 
-        <div class="d-flex flex-column align-items-start gap-3 ps-4">
-            {% for folder in folders %}
-                <a 
-                href="{% url 'tasks:folder-tasks' folder.pk %}"
-                class="btn btn-lg"
-                style="color: {{ folder.color }};"
-                >
-                #{{ folder.name }}</a>
-
-            {% endfor%}
+                {% endfor%}
+            </div>
         </div>
     </div>
 
@@ -76,6 +77,10 @@
                 <form method="post" action="{% url 'tasks:task-create' %}">
                     <div class="modal-body p-4">
                         {% csrf_token %}
+                        
+                        {% if current_folder%}
+                            <input type="hidden" name="folder" value="{{ current_folder.id }}">
+                        {% endif %}
 
                         <div class="mb-3">
                             <label class="form-label"></label>
@@ -162,35 +167,39 @@
             {{ form.priority}}
             <button type="submit" class="btn btn-primary ml-2">Filter</button>
         </form> -->
- 
-        <ul class="list-group list-group-flush">
+        
+        <ul class="list-group list-group-flush" data-simplebar style="max-height: 700px; overflow-x: hidden;">
+        
             {% for task in tasks %}
-                <li class="list-group-item  border-0 p-1 bg-transparent" style="min-height: 80px;"> 
-                    <div class="task-area d-flex align-items-center p-3">
-                        <div class="form-check ms-2" style="z-index: 10;"> 
-                            <input  class="form-check-input task-complete-input"
-                                    type="checkbox"
-                                    name="checkboxDefault"
-                                    id="checkboxTask{{ task.pk }}" 
-                                    data-url="{% url 'tasks:task-complete' task.pk %}"
-                                    style="transform: scale(1.5); cursor: pointer;">
-                            <label class="form-check-label" for="checkboxTask{{ task.pk }}"></label>
-                        </div>
-                    
-                        <div class="flex-grow-1 p-3">
-                            <p class="task-date text-muted mb-1 small">{{ task.due_date }}</p>
-                            <h5 class="mb-1">{{ task.title }}</h5> 
-                            <p class="text-secondary mb-0 text-truncate" style="max-width: 500px;">{{ task.description }}</p>
-                        </div>
+                <div class="task-scroling">
+                    <li class="list-group-item  border-0 p-1 bg-transparent" style="min-height: 80px;"> 
+                        <div class="task-area d-flex align-items-center p-3">
+                            <div class="form-check ms-2" style="z-index: 10;"> 
+                                <input  class="form-check-input task-complete-input"
+                                        type="checkbox"
+                                        name="checkboxDefault"
+                                        id="checkboxTask{{ task.pk }}" 
+                                        data-url="{% url 'tasks:task-complete' task.pk %}"
+                                        style="transform: scale(1.5); cursor: pointer;">
+                                <label class="form-check-label" for="checkboxTask{{ task.pk }}"></label>
+                            </div>
+                        
+                            <div class="flex-grow-1 p-3">
+                                <p class="task-date text-muted mb-1 small">{{ task.due_date }}</p>
+                                <h5 class="mb-1">{{ task.title }}</h5> 
+                                <p class="text-secondary mb-0 text-truncate" style="max-width: 500px;">{{ task.description }}</p>
+                            </div>
 
-                        <button type="button" 
-                            class="stretched-link detail_link border-0 p-0 bg-transparent" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#editModal{{ task.pk }}">
-                        </button>
-                    </div>
-                </li>
-                <hr class="m-0">   
+                            <button type="button" 
+                                class="stretched-link detail_link border-0 p-0 bg-transparent" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#editModal{{ task.pk }}">
+                            </button>
+                        </div>
+                    </li>
+                </div>
+                <hr class="m-0">  
+                
             {% empty %}
                 <li class="list-group-item text-center py-4 text-muted">
                     <i class="bi bi-clipboard-x" style="font-size: 2rem;"></i>
@@ -198,12 +207,14 @@
                 </li>
             {% endfor %}
 
-            <div class="list-group-item border-0 pt-3">
-                <a class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#TaskModal">
-                    <i class="bi bi-plus-circle-fill"></i> Add note
-                </a>
-            </div>
+            
         </ul>
+        <div class="list-group-item border-0 pt-3">
+            <a class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#TaskModal">
+                <i class="bi bi-plus-circle-fill"></i> Add note
+            </a>
+        </div>
+        
     </div>
     {% for task in tasks %}
         <div class="modal fade" id="editModal{{ task.pk }}" tabindex="-1" aria-labelledby="editModalLabel{{ task.pk }}" aria-hidden="true">
