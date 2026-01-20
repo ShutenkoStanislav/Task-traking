@@ -13,10 +13,10 @@
   
         <div class="dropdown-center mb-3">
             <button class="btn btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle"></i>  {{ user.username}}
+                <i class="bi bi-person-circle"></i>  {{ user.username }}
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'tasks:profile'%}">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     

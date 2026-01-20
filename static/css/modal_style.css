@@ -142,23 +142,48 @@
 
 /* profile */
 
-data-container {
+.data-container {
     display: flex;
     background-color: #D9D9D9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 24px;
     flex-direction: column;
-    padding: 20px;
-    gap: 15px;
+    padding: 30px 30px;
+    gap: 35px;
     margin-bottom: 20px;
 }
 
-data-wrapper {
+.ifna-container {
+    display: flex;
+    background-color: #ffffff ;
+    color: #000;
+    border-radius: 12px;
+    justify-content: space-between;
+    padding: 30px 40px;
+    align-items: center;
+}
+
+.data-wrapper {
     display: flex;
     flex-direction: column;
 
     max-width: 900px;
-    margin-left: 400px;
-    margin-top: -400px;
+    margin-left: 450px;
+    margin-top: -500px;
 }
+
+.profile-icon-link {
+    display: inline-block;
+    padding: 100px;
+    border: 3px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.profile-icon-link:hover{
+    transform: scale(1.05);
+}
+
+
+
 
