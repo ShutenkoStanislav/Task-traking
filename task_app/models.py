@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Folder(models.Model):
 
     COLOR_VARIATION = [
-        ("#5d8aa8", "Air blue"),
+        ("#77acc7", "Air blue"),
         ("#9966cc", "Amethust"),
         ("#008000", "Apple Green"),
         ("#ff033e", "Red rose"),

@@ -54,7 +54,7 @@
                     <a 
                     href="{% url 'tasks:folder-tasks' folder.pk %}"
                     class="btn btn-lg"
-                    style="color: {{ folder.color }};"
+                    style="color: {{ folder.color }}; font-weight: bold;"
                     >
                     #{{ folder.name }}</a>
 
@@ -186,7 +186,23 @@
                         
                             <div class="flex-grow-1 p-3">
                                 <p class="task-date text-muted mb-1 small">{{ task.due_date }}</p>
-                                <h5 class="mb-1">{{ task.title }}</h5> 
+
+                                
+
+                                <h5 class="mb-1">
+                                    {% if task.priority == 'high' %}
+                                        <span class="text-danger fw-bold fs-5">!!!</span>   
+                                    {% elif task.priority == 'medium' %}
+                                        <span class="text-warning fw-bold fs-5">!!</span>  
+                                    {% else %}
+                                        <span class="text-success fw-bold fs-5">!</span>
+                                    {% endif %}
+                                    {{ task.title }}
+                                </h5>
+
+                                
+
+
                                 <p class="text-secondary mb-0 text-truncate" style="max-width: 500px;">{{ task.description }}</p>
                             </div>
 
@@ -227,10 +243,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <p class="mt-2">{{ task.description }}</p>
-                        <div class="mb-2">
-                            <span class="badge bg-primary">Status: {{ task.get_status_display|default:task.status }}</span>
-                            <span class="badge bg-secondary">Priority: {{ task.get_priority_display|default:task.priority }}</span>
-                        </div>
+                        
                         <div class="mt-2">
                             <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
                             <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
@@ -248,7 +261,6 @@
 
                                         {% if comment.media %}
                                             <div class="comment-media mt-2">
-                                                {# Перевірка медіа (спрощена для стандартного Django) #}
                                                 {% if ".jpg" in comment.media.url or ".png" in comment.media.url or ".jpeg" in comment.media.url %}
                                                     <img src="{{ comment.media.url }}" class="img-fluid rounded" style="max-width: 250px;" alt="comment image">
                                                 {% elif ".mp4" in comment.media.url %}
@@ -272,7 +284,10 @@
                                 <h5>Leave a comment</h5>
                                 <form action="{% url 'tasks:task_detail' task.pk %}" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
-                                    {{ comment_form.as_p }}
+                                    <div class="form-floating">
+                                        <textarea name="content" class="form-control" style="height: 100px" required></textarea>
+                                    </div>
+                                    <br>
                                     <div class="d-flex gap-2">
                                         <button type="submit" class="btn btn-dark">Post Comment</button>
                                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>

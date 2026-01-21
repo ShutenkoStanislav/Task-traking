@@ -75,9 +75,16 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
             comment.author = request.user
             comment.task = self.get_object()
             comment.save()
-            return redirect("tasks:task_detail", pk=comment.task.pk)
+
+            next_url = request.META.get('HTTP_REFERER')
+            if next_url:
+                return HttpResponseRedirect(next_url)
+            else:
+                return redirect("tasks:task_list")
         else:
-            pass
+            context = self.get_context_data(object=self.object)
+            context['comment_form'] = comment_form
+            return self.render_to_response(context)
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = models.Task
