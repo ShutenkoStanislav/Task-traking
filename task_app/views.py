@@ -55,6 +55,8 @@ class TaskListView(ListView):
         context["form"] = TaskFilterForm(self.request.GET)
         context["task_form"] = TaskForm()
         context["folder_form"] = FolderForm()
+
+        context["comment_form"] = CommentForm()
         
         return context
 

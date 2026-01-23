@@ -77,16 +77,18 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content', 'media']
-        wigets = {
-            "media": forms.FileInput()
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'class': 'form-control', 
+                'rows': 3,
+                
+            }),
+            'media': forms.ClearableFileInput(attrs={
+                'class': 'form-control', 
+            })
         }
-    def __init__(self, *args, **kwargs):
-        super(CommentForm, self).__init__(*args, **kwargs)
-        self.fields['content'].widget.attrs.update({
-            "class": "form-floating ",
-            
-            
-        })
+
+
 
 
             

@@ -232,74 +232,82 @@
         </div>
         
     </div>
-    {% for task in tasks %}
-        <div class="modal fade" id="editModal{{ task.pk }}" tabindex="-1" aria-labelledby="editModalLabel{{ task.pk }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    
-                    <div class="modal-header d-block">
-                        <div class="d-flex justify-content-between align-items-start w-100">
-                            <h2 class="modal-title" id="editModalLabel{{ task.pk }}">{{ task.title }}</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <p class="mt-2">{{ task.description }}</p>
+        {% for task in tasks %}
+            <div class="modal fade" id="editModal{{ task.pk }}" tabindex="-1" aria-labelledby="editModalLabel{{ task.pk }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
                         
-                        <div class="mt-2">
-                            <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        <div class="modal-header d-block">
+                            <div class="d-flex justify-content-between align-items-start w-100">
+                                <h2 class="modal-title" id="editModalLabel{{ task.pk }}">{{ task.title }}</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <p class="mt-2">{{ task.description }}</p>
+                            
+                            <div class="mt-2">
+                                <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="modal-body">
-                        <div class="comments">
-                            <h3>Comments</h3>
-                            <div class="comment-list mb-4" style="max-height: 300px; overflow-y: auto;">
-                                {% for comment in task.comments.all %}
-                                    <div class="comment mb-3 p-3 border rounded shadow-sm">
-                                        <strong>{{ comment.author.username }}</strong>
-                                        <p class="mt-2 mb-1">{{ comment.content }}</p>
+                        <div class="modal-body">
+                            <div class="comments">
+                                <h3>Comments</h3>
+                                <div class="comment-list mb-4" style="max-height: 300px; overflow-y: auto;">
+                                    {% for comment in task.comments.all %}
+                                        <div class="comment mb-3 p-3 border rounded shadow-sm">
+                                            <strong>{{ comment.author.username }}</strong>
+                                            <p class="mt-2 mb-1">{{ comment.content }}</p>
 
-                                        {% if comment.media %}
-                                            <div class="comment-media mt-2">
-                                                {% if ".jpg" in comment.media.url or ".png" in comment.media.url or ".jpeg" in comment.media.url %}
-                                                    <img src="{{ comment.media.url }}" class="img-fluid rounded" style="max-width: 250px;" alt="comment image">
-                                                {% elif ".mp4" in comment.media.url %}
-                                                    <video style="max-width: 250px;" controls>
-                                                        <source src="{{ comment.media.url }}" type="video/mp4">
-                                                    </video>
-                                                {% else %}
-                                                    <a href="{{ comment.media.url }}" class="btn btn-sm btn-outline-primary" download>
-                                                        <i class="bi bi-download"></i> Download File
-                                                    </a>
-                                                {% endif %}
+                                            {% if comment.media %}
+                                                <div class="comment-media mt-2">
+                                                    {% if ".jpg" in comment.media.url or ".png" in comment.media.url or ".jpeg" in comment.media.url %}
+                                                        <img src="{{ comment.media.url }}" class="img-fluid rounded" style="max-width: 250px;" alt="comment image">
+                                                    {% elif ".mp4" in comment.media.url %}
+                                                        <video style="max-width: 250px;" controls>
+                                                            <source src="{{ comment.media.url }}" type="video/mp4">
+                                                        </video>
+                                                    {% else %}
+                                                        <a href="{{ comment.media.url }}" class="btn btn-sm btn-outline-primary" download>
+                                                            <i class="bi bi-download"></i> Download File
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% empty %}
+                                        <p class="text-muted">No comments yet.</p>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="add-comment border-top pt-3">
+                                    <h5>Leave a comment</h5>
+                                    <form action="{% url 'tasks:task_detail' task.pk %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Your comment</label>
+                                            {{ comment_form.content }} 
                                             </div>
-                                        {% endif %}
-                                    </div>
-                                {% empty %}
-                                    <p class="text-muted">No comments yet.</p>
-                                {% endfor %}
-                            </div>
 
-                            <div class="add-comment border-top pt-3">
-                                <h5>Leave a comment</h5>
-                                <form action="{% url 'tasks:task_detail' task.pk %}" method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div class="form-floating">
-                                        <textarea name="content" class="form-control" style="height: 100px" required></textarea>
-                                    </div>
-                                    <br>
-                                    <div class="d-flex gap-2">
-                                        <button type="submit" class="btn btn-dark">Post Comment</button>
-                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Add media</label>
+                                            {{ comment_form.media }}
+                                            </div>
+
+                                        <br>
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-dark">Post Comment</button>
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    </div> 
-                </div>                
+                        </div> 
+                    </div>                
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
 
