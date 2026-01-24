@@ -20,7 +20,7 @@ class TaskListView(ListView):
     template_name = "tasks/task_list.html"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = models.Task.objects.filter(creator=self.request.user)
 
         folder_id = self.kwargs.get('folder_id')
 
@@ -30,25 +30,24 @@ class TaskListView(ListView):
             queryset = queryset.filter(folder__isnull=True)
         
         status = self.request.GET.get('status')
-        priority = self.request.GET.get("priority")
+        # priority = self.request.GET.get("priority")
 
         if status:
-            queryset = queryset.filter(status=status)
+            queryset = queryset.filter(status__iexact=status)
         else:
-           queryset = queryset.exclude(status="done")
+           queryset = queryset.exclude(status__iexact="done")
 
-        if priority:
-            queryset = queryset.filter(priority=priority)
+        
         return queryset.order_by("-due_date", "-created_at")
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["folders"] = Folder.objects.all()
+        context["folders"] = Folder.objects.filter(creator=self.request.user)
 
         folder_id = self.kwargs.get('folder_id')
         if folder_id:
-            context['current_folder'] = Folder.objects.get(id=folder_id)
+            context['current_folder'] = get_object_or_404(Folder, id=folder_id, creator=self.request.user)
         else:
             context['current_folder'] = None
 
