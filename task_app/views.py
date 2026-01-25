@@ -118,7 +118,7 @@ class FolderCreateView(LoginRequiredMixin, CreateView):
 
   
     
-class TaskCompleteView(LoginRequiredMixin, UserIsOwner, View):
+class TaskCompleteView(LoginRequiredMixin,  View):
     def post(self, request, *args, **kwargs):
         task = self.get_object()
         task.status = "done"
@@ -130,17 +130,28 @@ class TaskCompleteView(LoginRequiredMixin, UserIsOwner, View):
         return get_object_or_404(models.Task, pk=task_id)
 
     
-class TaskUpdateView(LoginRequiredMixin, UserIsOwner, UpdateView):
+class TaskUpdateView(LoginRequiredMixin,  UpdateView):
     model = models.Task
     form_class = TaskForm
     template_name = "tasks/task_update_form.html"
     success_url = reverse_lazy('tasks:task_list')
 
-class TaskDeleteView(LoginRequiredMixin, UserIsOwner, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Task
     success_url = reverse_lazy('tasks:task_list')
-    template_name = "tasks/task_delete_form.html"
     
+    def get_queryset(self):
+        return self.model.objects.filter(creator=self.request.user)
+    
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+    
+
+class FolderDeleteView(LoginRequiredMixin,  DeleteView):
+    model = models.Folder
+    success_url = reverse_lazy('tasks:task_list')
+    template_name = "tasks/folder_delete_form.html"
+
 class CustomLoginView(LoginView):
     template_name = "auth/login.html"
     redirect_authenticated_user = True

@@ -246,7 +246,14 @@
                             
                             <div class="mt-2">
                                 <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                                <a 
+                                    class="btn btn-sm btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#DeletetaskModal"
+                                    data-task-id="{{ task.pk }}"
+                                    data-task-title="{{ task.title }}"
+                                    data-url="{% url 'tasks:task_delete' task.pk %}"
+                                >Delete</a>
                             </div>
                         </div>
 
@@ -309,6 +316,23 @@
             </div>
         {% endfor %}
     </div>
+
+    <div class="modal fade" id="DeletetaskModal" tabindex="-1" aria-labelledby="deletetaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0 shadow">           
+                <div class="modal-body">   
+                    <h2>Delete task</h2>
+                    <p>You sure, delete this task </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">Back</a>        
+                    </form>   
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

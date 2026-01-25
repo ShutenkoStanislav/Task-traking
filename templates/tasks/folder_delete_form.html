@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <h2>Delete folder</h2>
+    <p>You sure, delete folder "{{ object.name }}"</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">Back</a>        
+    </form>
+</div>
+
+{% endblock %}
