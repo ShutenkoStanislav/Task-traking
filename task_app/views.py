@@ -30,7 +30,6 @@ class TaskListView(ListView):
             queryset = queryset.filter(folder__isnull=True)
         
         status = self.request.GET.get('status')
-        # priority = self.request.GET.get("priority")
 
         if status:
             queryset = queryset.filter(status__iexact=status)
@@ -38,7 +37,7 @@ class TaskListView(ListView):
            queryset = queryset.exclude(status__iexact="done")
 
         
-        return queryset.order_by("-due_date", "-created_at")
+        return queryset.order_by("due_date")
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -147,10 +146,17 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
         return self.post(request, *args, **kwargs)
     
 
-class FolderDeleteView(LoginRequiredMixin,  DeleteView):
+class FolderDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Folder
     success_url = reverse_lazy('tasks:task_list')
-    template_name = "tasks/folder_delete_form.html"
+
+    def get_queryset(self):
+        return self.model.objects.filter(creator=self.request.user)
+    
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+    
+    
 
 class CustomLoginView(LoginView):
     template_name = "auth/login.html"

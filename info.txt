@@ -91,6 +91,8 @@ ls   # Показує файли (має бути manage.py)
 <i class="bi bi-calendar-plus"></i> calendar logo for form
 <i class="bi bi-flag-fill"></i> priorety flag
 
+<i class="bi bi-trash-fill"></i>
+
 
 
 
