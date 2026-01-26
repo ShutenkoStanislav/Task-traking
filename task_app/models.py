@@ -14,7 +14,7 @@ class Folder(models.Model):
         ("#000000", "Black"),
     ]
     color = models.CharField(max_length=30, choices=COLOR_VARIATION, default="Black")
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=16)
     created_at = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     

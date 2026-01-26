@@ -51,23 +51,20 @@
         <div data-simplebar style="max-height: 500px; overflow-x: hidden;">
             <div class="d-flex flex-column align-items-start gap-3 ps-4">
                 {% for folder in folders %}
-                    <a 
-                    href="{% url 'tasks:folder-tasks' folder.pk %}"
-                    class="btn btn-lg"
-                    style="color: {{ folder.color }}; font-weight: bold;"
-                    >
-                    #{{ folder.name }} </a>
-                    <button type="button" 
-                        class="btn"
-                        data-bs-toggle="modal"
-                        data-bs-target="#DeletefolderModal-{{ folder.pk }}"
-                    &times;
-                    >
-                    <i class="bi bi-trash-fill" style="color: red;"></i>
-                    </button>
-
-                    
-
+                    <div class="folder-row d-flex align-items-center justify-content-between p-2 rounded">
+                        <a
+                        href="{% url 'tasks:folder-tasks' folder.pk %}"
+                        class="btn btn-lg"
+                        style="color: {{ folder.color }}; font-weight: bold;"
+                        >
+                        #{{ folder.name }} </a>
+                        <button type="button"
+                                class="btn p-0 border-0 delete-btn-hidden"
+                                data-bs-toggle="modal"
+                                data-bs-target="#DeletefolderModal-{{ folder.pk }}">
+                            <i class="bi bi-trash-fill text-danger"></i>
+                        </button>
+                    </div>
                 {% endfor %}
             </div>
         </div>
