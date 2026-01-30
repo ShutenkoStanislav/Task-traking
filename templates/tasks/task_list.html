@@ -239,102 +239,137 @@
         </div>
         
     </div>
-        {% for task in tasks %}
-            <div class="modal fade" id="editModal{{ task.pk }}" tabindex="-1" aria-labelledby="editModalLabel{{ task.pk }}" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
+    {% for task in tasks %}
+        <div class="modal fade" id="editModal{{ task.pk }}" tabindex="-1" aria-labelledby="editModalLabel{{ task.pk }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content overflow-hidden">
+                    
+                    <form action="{% url 'tasks:task_update' task.pk %}" method="post">  
+                        {% csrf_token %}
                         
-                        <div class="modal-header d-block">
-                            <div class="d-flex justify-content-between align-items-start w-100">
-                                <h2 class="modal-title" id="editModalLabel{{ task.pk }}">{{ task.title }}</h2>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <p class="mt-2">{{ task.description }}</p>
+                        <div class="modal-header align-items-start">
                             
-                            <div class="mt-2">
-                                <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                                <button 
-                                    type="button"
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#DeletetaskModal-{{ task.pk }}"   
-                                >Delete</button>
+                            <div class="w-100 me-3">
+                                <fieldset id="fieldset-{{ task.pk }}" disabled> 
+                                    <input type="text" name="title"
+                                        class="form-control border-0 bg-transparent fw-bold fs-4 p-0 mb-1 text-dark"
+                                        value="{{ task.title }}" 
+                                        placeholder="Title" required>
+                                    
+                                    <textarea name="description"
+                                        class="form-control border-0 bg-transparent small text-dark opacity-100 p-0 mb-2"
+                                        placeholder="Content"
+                                        rows="2"
+                                        style="resize: none;">{{ task.description }}</textarea>
+
+                                    <select name="priority"
+                                        class="form-select border-0 d-inline-block w-auto py-0 ps-2 pe-4 fw-bold small"
+                                        style="cursor: pointer; background-color: #e9ecef;">
+                                        <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                                        <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                                        <option value="high" {% if task.priority == 'high' %}selected{% endif %}>High</option>
+                                    </select>
+                                </fieldset>
                             </div>
-                        </div>
 
-                        <div class="modal-body">
-                            <div class="comments">
-                                <h3>Comments</h3>
-                                <div class="comment-list mb-4" style="max-height: 300px; overflow-y: auto;">
-                                    {% for comment in task.comments.all %}
-                                        <div class="comment mb-3 p-3 border rounded shadow-sm">
-                                            <strong>{{ comment.author.username }}</strong>
-                                            <p class="mt-2 mb-1">{{ comment.content }}</p>
+                            <div class="d-flex flex-column align-items-end gap-2" style="min-width: 80px;">
+                                <button type="button" class="btn-close mb-2" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                                            {% if comment.media %}
-                                                <div class="comment-media mt-2">
-                                                    {% if ".jpg" in comment.media.url or ".png" in comment.media.url or ".jpeg" in comment.media.url %}
-                                                        <img src="{{ comment.media.url }}" class="img-fluid rounded" style="max-width: 250px;" alt="comment image">
-                                                    {% elif ".mp4" in comment.media.url %}
-                                                        <video style="max-width: 250px;" controls>
-                                                            <source src="{{ comment.media.url }}" type="video/mp4">
-                                                        </video>
-                                                    {% else %}
-                                                        <a href="{{ comment.media.url }}" class="btn btn-sm btn-outline-primary" download>
-                                                            <i class="bi bi-download"></i> Download File
-                                                        </a>
-                                                    {% endif %}
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    {% empty %}
-                                        <p class="text-muted">No comments yet.</p>
-                                    {% endfor %}
-                                </div>
+                                <button type="button" id="edit-btn-{{ task.pk }}"
+                                        class="btn btn-sm btn-outline-dark w-100"
+                                        onclick="enableEditing('{{ task.pk }}')">
+                                    Edit
+                                </button>
 
-                                <div class="add-comment border-top pt-3">
-                                    <h5>Leave a comment</h5>
-                                    <form action="{% url 'tasks:task_detail' task.pk %}" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        
-                                        <div class="mb-3">
-                                            <label class="form-label">Your comment</label>
-                                            {{ comment_form.content }} 
-                                            </div>
+                                <button type="submit" id="save-btn-{{ task.pk }}"
+                                        class="btn btn-sm btn-success w-100 d-none">
+                                    Save
+                                </button>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Add media</label>
-                                            {{ comment_form.media }}
-                                            </div>
-
-                                        <br>
-                                        <div class="d-flex gap-2">
-                                            <button type="submit" class="btn btn-dark">Post Comment</button>
-                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                <button type="button" class="btn btn-sm btn-danger w-100"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#DeletetaskModal-{{ task.pk }}"
+                                        data-bs-dismiss="modal">
+                                    Delete
+                                </button>
                             </div>
                         </div> 
-                    </div>                
-                </div>
-            </div>
-            <div class="modal fade" id="DeletetaskModal-{{ task.pk }}" tabindex="-1" aria-labelledby="deletetaskModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm modal-dialog-centered">
-                    <div class="modal-content">           
-                        <div class="modal-body text-center p-4">   
-                            <h2>Delete task</h2>
-                            <p>You sure, delete task: "{{ task.title }}"</p>
-                            <form action="{% url 'tasks:task_delete' task.pk %}" method="post" class="mt-3">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Back</button>        
-                            </form>   
+                    </form> 
+                    <div class="modal-body bg-light">
+                        <div class="comments">
+                            <h5 class="mb-3">Comments</h5>
+                            
+                            <div class="comment-list mb-4" style="max-height: 300px; overflow-y: auto;">
+                                {% for comment in task.comments.all %}
+                                    <div class="comment mb-3 p-3 border rounded shadow-sm bg-white">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>{{ comment.author.username }}</strong>
+                                            <small class="text-muted">{{ comment.created_at|date:"d M, H:i" }}</small>
+                                        </div>
+                                        <p class="mt-2 mb-1">{{ comment.content }}</p>
+
+                                        {% if comment.media %}
+                                            <div class="comment-media mt-2">
+                                                {% if ".jpg" in comment.media.url or ".png" in comment.media.url or ".jpeg" in comment.media.url %}
+                                                    <img src="{{ comment.media.url }}" class="img-fluid rounded" style="max-width: 250px;">
+                                                {% elif ".mp4" in comment.media.url %}
+                                                    <video style="max-width: 250px;" controls>
+                                                        <source src="{{ comment.media.url }}" type="video/mp4">
+                                                    </video>
+                                                {% else %}
+                                                    <a href="{{ comment.media.url }}" target="_blank">Download File</a>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% empty %}
+                                    <p class="text-muted text-center py-2">No comments yet. Be the first!</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="add-comment border-top pt-3">
+                                <form action="{% url 'tasks:task_detail' task.pk %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    
+                                    <div class="mb-2">
+                                        {{ comment_form.content }} 
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        {{ comment_form.media }}
+                                    </div>
+                                    
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-dark btn-sm">Post Comment</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+                    </div> 
+                </div>                
+            </div>
+        </div>
+
+        <div class="modal fade" id="DeletetaskModal-{{ task.pk }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">          
+                    <div class="modal-body text-center p-4">   
+                        <h4 class="mb-3">Delete task?</h4>
+                        <p class="text-muted mb-4">Are you sure you want to delete <strong>"{{ task.title }}"</strong>?</p>
+                        
+                        <form action="{% url 'tasks:task_delete' task.pk %}" method="post">
+                            {% csrf_token %}
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>        
+                            </div>
+                        </form>   
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
         {% for folder in folders %}
             <div class="modal fade" id="DeletefolderModal-{{ folder.pk }}" tabindex="-1" aria-labelledby="deletefolderModalLabel" aria-hidden="true">

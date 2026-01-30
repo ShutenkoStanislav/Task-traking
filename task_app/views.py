@@ -131,9 +131,16 @@ class TaskCompleteView(LoginRequiredMixin,  View):
     
 class TaskUpdateView(LoginRequiredMixin,  UpdateView):
     model = models.Task
-    form_class = TaskForm
+    fields = ["title", "description", "priority"] 
     template_name = "tasks/task_update_form.html"
-    success_url = reverse_lazy('tasks:task_list')
+
+    def get_queryset(self):
+        return models.Task.objects.filter(creator=self.request.user)
+        
+    
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER', reverse_lazy('tasks:task_list'))
+        
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Task
