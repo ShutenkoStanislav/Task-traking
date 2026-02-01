@@ -5,13 +5,13 @@ from django.contrib.auth.models import User
 class Folder(models.Model):
 
     COLOR_VARIATION = [
-        ("#77acc7", "Air blue"),
-        ("#9966cc", "Amethust"),
-        ("#008000", "Apple Green"),
-        ("#ff033e", "Red rose"),
-        ("#ffe135", "Banana yellow"),
-        ("#ff6500", "Sunset"),
-        ("#000000", "Black"),
+        ("#77acc7", "🔵Air blue"),
+        ("#9966cc", "🟣Amethust"),
+        ("#008000", "🟢Apple Green"),
+        ("#ff033e", "🔴Red rose"),
+        ("#ffe135", "🟡Banana yellow"),
+        ("#ff6500", "🟠Sunset"),
+        ("#000000", "⚫Black"),
     ]
     color = models.CharField(max_length=30, choices=COLOR_VARIATION, default="Black")
     name = models.CharField(max_length=16)
@@ -57,7 +57,7 @@ class Task(models.Model):
     
 class Comment(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     media = models.FileField(upload_to="comments_media/", blank=True, null=True)

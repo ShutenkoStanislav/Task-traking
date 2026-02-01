@@ -142,27 +142,22 @@ class TaskUpdateView(LoginRequiredMixin,  UpdateView):
         return self.request.META.get('HTTP_REFERER', reverse_lazy('tasks:task_list'))
         
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, UserIsOwner, DeleteView):
     model = models.Task
     success_url = reverse_lazy('tasks:task_list')
     
-    def get_queryset(self):
-        return self.model.objects.filter(creator=self.request.user)
-    
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
     
 
-class FolderDeleteView(LoginRequiredMixin, DeleteView):
+class FolderDeleteView(LoginRequiredMixin, UserIsOwner, DeleteView):
     model = models.Folder
     success_url = reverse_lazy('tasks:task_list')
 
-    def get_queryset(self):
-        return self.model.objects.filter(creator=self.request.user)
     
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
     
+class CommentDeleteView(LoginRequiredMixin, UserIsOwner, DeleteView):
+    model = models.Comment
+    success_url = reverse_lazy('tasks:task_list')
+
     
 
 class CustomLoginView(LoginView):

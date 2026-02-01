@@ -15,6 +15,8 @@ urlpatterns = [
 
     path('folder/<int:pk>/delete/', views.FolderDeleteView.as_view(), name='folder_delete'),
 
+    path('comment/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
+
     path('task-create/', views.TaskCreateView.as_view(), name="task-create"),
     path('folder-create/', views.FolderCreateView.as_view(), name="folder-create"),
 

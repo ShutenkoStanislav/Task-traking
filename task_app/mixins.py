@@ -1,11 +1,9 @@
-from django.core.exceptions import PermissionDenied
-
-class UserIsOwner(object):
-    def dispatch(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance.creator != self.request.user:
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
+class UserIsOwner:
+    def get_queryset(self):
+        return self.model.objects.filter(creator=self.request.user)
+    
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
     
 
 
